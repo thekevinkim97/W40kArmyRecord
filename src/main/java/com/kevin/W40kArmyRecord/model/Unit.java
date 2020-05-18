@@ -3,12 +3,13 @@ package com.kevin.W40kArmyRecord.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class Unit {
     private final int unit_id;
-    @NotBlank
+    @NotNull
     private final int army_id;
-    @NotBlank
+    @NotNull
     private final int faction_id;
     @NotBlank
     private final String unit_name;
