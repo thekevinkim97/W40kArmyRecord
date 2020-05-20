@@ -9,18 +9,14 @@ public class Unit {
     private final int unit_id;
     @NotNull
     private final int army_id;
-    @NotNull
-    private final int faction_id;
     @NotBlank
     private final String unit_name;
 
     public Unit(@JsonProperty("id") int unit_id,
                 @JsonProperty("armyId") int army_id,
-                @JsonProperty("factionId") int faction_id,
                 @JsonProperty("name") String unit_name) {
         this.unit_id = unit_id;
         this.army_id = army_id;
-        this.faction_id = faction_id;
         this.unit_name = unit_name;
     }
 
@@ -30,10 +26,6 @@ public class Unit {
 
     public Integer getArmy_id() {
         return army_id;
-    }
-
-    public Integer getFaction_id() {
-        return faction_id;
     }
 
     public String getUnit_name() {

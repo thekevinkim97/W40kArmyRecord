@@ -100,7 +100,7 @@ public class FakeWarhammerDataAccessService implements WarhammerDao {
     //Unit Methods
     @Override
     public int insertUnit(int id, Unit unit) {
-        DB_U.add(new Unit(id, unit.getArmy_id(), unit.getFaction_id(), unit.getUnit_name()));
+        DB_U.add(new Unit(id, unit.getArmy_id(), unit.getUnit_name()));
         return 1;
     }
     @Override
@@ -128,7 +128,7 @@ public class FakeWarhammerDataAccessService implements WarhammerDao {
                 .map(unit -> {
                     int indexOfUnitToUpdate = DB_U.indexOf(unit);
                     if (indexOfUnitToUpdate >= 0) {
-                        DB_U.set(indexOfUnitToUpdate, new Unit(id, DB_U.get(indexOfUnitToUpdate).getArmy_id(), DB_U.get(indexOfUnitToUpdate).getFaction_id(), updateUnit.getUnit_name()));
+                        DB_U.set(indexOfUnitToUpdate, new Unit(id, DB_U.get(indexOfUnitToUpdate).getArmy_id(), updateUnit.getUnit_name()));
                         return 1;
                     }
                     return 0;

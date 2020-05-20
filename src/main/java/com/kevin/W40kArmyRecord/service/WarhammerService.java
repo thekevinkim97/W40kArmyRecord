@@ -20,7 +20,7 @@ public class WarhammerService {
     private int unit_index = 0;
 
     @Autowired
-    public WarhammerService(@Qualifier("fakedao") WarhammerDao warhammerDao) {
+    public WarhammerService(@Qualifier("postgres") WarhammerDao warhammerDao) {
         this.warhammerDao = warhammerDao;
     }
 
