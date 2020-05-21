@@ -15,9 +15,6 @@ import java.util.Optional;
 public class WarhammerService {
 
     private final WarhammerDao warhammerDao;
-    private int faction_index = 0;
-    private int army_index = 0;
-    private int unit_index = 0;
 
     @Autowired
     public WarhammerService(@Qualifier("postgres") WarhammerDao warhammerDao) {
@@ -26,7 +23,7 @@ public class WarhammerService {
 
     //Faction Methods
     public int addFaction(Faction faction) {
-        return warhammerDao.insertFaction(++faction_index, faction);
+        return warhammerDao.insertFaction(faction);
     }
 
     public List<Faction> getAllFactions() {
@@ -48,7 +45,7 @@ public class WarhammerService {
 
     //Army Methods
     public int addArmy(Army army) {
-        return warhammerDao.insertArmy(++army_index, army);
+        return warhammerDao.insertArmy(army);
     }
 
     public List<Army> getAllArmies() {
@@ -70,7 +67,7 @@ public class WarhammerService {
 
     //Unit Methods
     public int addUnit(Unit unit) {
-        return warhammerDao.insertUnit(++unit_index, unit);
+        return warhammerDao.insertUnit(unit);
     }
 
     public List<Unit> getAllUnits() {

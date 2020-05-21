@@ -22,30 +22,27 @@ public class WarhammerDataAccessService implements WarhammerDao{
 
 
     @Override
-    public int insertFaction(int id, Faction faction) {
-        final String sql = "INSERT INTO faction (faction_id, faction_name) VALUES (?,?)";
+    public int insertFaction(Faction faction) {
+        final String sql = "INSERT INTO faction (faction_name) VALUES (?)";
         return jdbcTemplate.update(
                 sql,
-                id,
                 faction.getFactionName()
         );
     }
     @Override
-    public int insertArmy(int id, Army army) {
-        final String sql = "INSERT INTO army (army_id, faction_id, army_name) VALUES (?,?,?)";
+    public int insertArmy(Army army) {
+        final String sql = "INSERT INTO army (faction_id, army_name) VALUES (?,?)";
         return jdbcTemplate.update(
                 sql,
-                id,
                 army.getFactionId(),
                 army.getArmyName()
         );
     }
     @Override
-    public int insertUnit(int id, Unit unit) {
-        final String sql = "INSERT INTO unit (unit_id, army_id, unit_name) VALUES (?,?,?)";
+    public int insertUnit(Unit unit) {
+        final String sql = "INSERT INTO unit (army_id, unit_name) VALUES (?,?)";
         return jdbcTemplate.update(
                 sql,
-                id,
                 unit.getArmy_id(),
                 unit.getUnit_name()
         );

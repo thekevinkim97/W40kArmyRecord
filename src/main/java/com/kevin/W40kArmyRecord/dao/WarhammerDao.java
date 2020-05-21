@@ -9,9 +9,9 @@ import java.util.Optional;
 
 public interface WarhammerDao {
 
-    int insertFaction(int id, Faction faction);
-    int insertArmy(int id, Army army);
-    int insertUnit(int id, Unit unit);
+    int insertFaction(Faction faction);
+    int insertArmy(Army army);
+    int insertUnit(Unit unit);
 
     List<Faction> selectAllFactions();
     List<Army> selectAllArmies();
