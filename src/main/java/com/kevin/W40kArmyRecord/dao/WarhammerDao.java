@@ -28,4 +28,7 @@ public interface WarhammerDao {
     int updateFactionById(int id, Faction faction);
     int updateArmyById(int id, Army army);
     int updateUnitById(int id, Unit unit);
+
+    List<Army> selectArmiesInFactionById(int id);
+    List<Unit> selectUnitsInArmyById(int id);
 }

@@ -2,7 +2,7 @@ package com.kevin.W40kArmyRecord.api;
 
 
 import com.kevin.W40kArmyRecord.model.Unit;
-import com.kevin.W40kArmyRecord.service.WarhammerService;
+import com.kevin.W40kArmyRecord.service.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
@@ -14,37 +14,37 @@ import java.util.List;
 @RestController
 public class UnitController {
 
-    private final WarhammerService warhammerService;
+    private final UnitService unitService;
 
     @Autowired
-    public UnitController(WarhammerService warhammerService) {
-        this.warhammerService = warhammerService;
+    public UnitController(UnitService unitService) {
+        this.unitService = unitService;
     }
 
     @PostMapping
     public void addUnit(@Valid @NonNull @RequestBody Unit unit) {
-        warhammerService.addUnit(unit);
+        unitService.addUnit(unit);
     }
 
-    @GetMapping
+    @GetMapping(path = "/all")
     public List<Unit> getAllUnits() {
-        return warhammerService.getAllUnits();
+        return unitService.getAllUnits();
     }
 
     @GetMapping(path = "{id}")
     public Unit getUnitById(@PathVariable("id") int id) {
-        return warhammerService.getUnitById(id)
+        return unitService.getUnitById(id)
                 .orElse(null);
     }
 
     @DeleteMapping(path = "{id}")
     public void deleteUnitById(@PathVariable("id") int id) {
-        warhammerService.deleteUnit(id);
+        unitService.deleteUnit(id);
     }
 
     @PutMapping(path = "{id}")
     public void updateUnitById(@PathVariable("id") int id, @Valid @NonNull @RequestBody Unit unitToUpdate) {
-        warhammerService.updateUnit(id, unitToUpdate);
+        unitService.updateUnit(id, unitToUpdate);
     }
 
 }

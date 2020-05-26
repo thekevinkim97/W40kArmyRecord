@@ -3,6 +3,7 @@ package com.kevin.W40kArmyRecord.dao;
 import com.kevin.W40kArmyRecord.model.Army;
 import com.kevin.W40kArmyRecord.model.Faction;
 import com.kevin.W40kArmyRecord.model.Unit;
+import org.flywaydb.core.internal.jdbc.RowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -40,11 +41,12 @@ public class WarhammerDataAccessService implements WarhammerDao{
     }
     @Override
     public int insertUnit(Unit unit) {
-        final String sql = "INSERT INTO unit (army_id, unit_name) VALUES (?,?)";
+        final String sql = "INSERT INTO unit (army_id, unit_name, total_number) VALUES (?,?,?)";
         return jdbcTemplate.update(
                 sql,
                 unit.getArmy_id(),
-                unit.getUnit_name()
+                unit.getUnit_name(),
+                unit.getUnitCount()
         );
     }
 
@@ -70,12 +72,13 @@ public class WarhammerDataAccessService implements WarhammerDao{
     }
     @Override
     public List<Unit> selectAllUnits() {
-        final String sql = "SELECT unit_id, army_id, unit_name FROM unit";
+        final String sql = "SELECT unit_id, army_id, unit_name, total_number FROM unit";
         return jdbcTemplate.query(sql, (resultSet, i) -> {
             int idU = Integer.parseInt(resultSet.getString("unit_id"));
             int idA = Integer.parseInt(resultSet.getString("army_id"));
             String name = resultSet.getString("unit_name");
-            return new Unit(idU, idA, name);
+            int total_number = Integer.parseInt(resultSet.getString("total_number"));
+            return new Unit(idU, idA, name, total_number);
         });
     }
 
@@ -110,7 +113,7 @@ public class WarhammerDataAccessService implements WarhammerDao{
     }
     @Override
     public Optional<Unit> selectUnitById(int id) {
-        final String sql = "SELECT unit_id, army_id, unit_name FROM unit WHERE unit_id = ?";
+        final String sql = "SELECT unit_id, army_id, unit_name, total_number FROM unit WHERE unit_id = ?";
         Unit unit = jdbcTemplate.queryForObject(
                 sql,
                 new Object[]{id},
@@ -118,7 +121,8 @@ public class WarhammerDataAccessService implements WarhammerDao{
                     int unit_id = Integer.parseInt(resultSet.getString("unit_id"));
                     int army_id = Integer.parseInt(resultSet.getString("army_id"));
                     String name = resultSet.getString("unit_name");
-                    return new Unit(unit_id, army_id, name);
+                    int total_number = Integer.parseInt(resultSet.getString("total_number"));
+                    return new Unit(unit_id, army_id, name, total_number);
                 }
         );
         return Optional.ofNullable(unit);
@@ -141,6 +145,7 @@ public class WarhammerDataAccessService implements WarhammerDao{
         return jdbcTemplate.update(sql, id);
     }
 
+
     @Override
     public int updateFactionById(int id, Faction faction) {
         final String sql = "UPDATE FROM faction WHERE faction_id = ?";
@@ -156,4 +161,35 @@ public class WarhammerDataAccessService implements WarhammerDao{
         final String sql = "UPDATE FROM unit WHERE unit_id = ?";
         return jdbcTemplate.update(sql, id, unit);
     }
+
+
+    @Override
+    public List<Army> selectArmiesInFactionById(int id) {
+        final String sql = "SELECT faction.faction_name, army_id, army.faction_id, army_name FROM army INNER JOIN faction ON army.faction_id = faction.faction_id WHERE faction.faction_id = ?";
+        return jdbcTemplate.query(
+                sql,
+                new Object[]{id},
+                (resultSet, i) -> {
+                    int idA = Integer.parseInt(resultSet.getString("army_id"));
+                    int idF = Integer.parseInt(resultSet.getString("faction_id"));
+                    String name = resultSet.getString("army_name");
+                    return new Army(idA, idF, name);
+                });
+    }
+    @Override
+    public List<Unit> selectUnitsInArmyById(int id) {
+        final String sql = "SELECT army.army_name, unit_id, unit.army_id, unit_name, total_number FROM unit INNER JOIN army ON unit.army_id = army.army_id WHERE unit.army_id = ?";
+        return jdbcTemplate.query(
+                sql,
+                new Object[]{id},
+                (resultSet, i) -> {
+                    int idU = Integer.parseInt(resultSet.getString("unit_id"));
+                    int idA = Integer.parseInt(resultSet.getString("army_id"));
+                    String name = resultSet.getString("unit_name");
+                    int total_number = Integer.parseInt(resultSet.getString("total_number"));
+                    return new Unit(idU, idA, name, total_number);
+                }
+        );
+    }
+
 }

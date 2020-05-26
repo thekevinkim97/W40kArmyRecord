@@ -14,5 +14,6 @@ CREATE TABLE unit (
     unit_id SERIAL NOT NULL PRIMARY KEY,
     army_id INTEGER NOT NULL,
     unit_name VARCHAR(100),
+    total_number INTEGER NOT NULL,
     FOREIGN KEY (army_id) REFERENCES army(army_id)
 );
